@@ -85,9 +85,10 @@ public class QdrantVectorStore implements VectorStore {
     public List<SearchHit> search(String projectId, float[] query, int topK, double scoreThreshold) {
         ensureCollection();
         ObjectNode body = JsonUtils.mapper().createObjectNode();
-        ArrayNode vector = body.putArray("vector");
+        // Qdrant 1.10+ 推荐的 /points/query：query 字段即向量（旧 /points/search 的 vector 写法已废弃）
+        ArrayNode queryVec = body.putArray("query");
         for (float value : query) {
-            vector.add(value);
+            queryVec.add(value);
         }
         body.put("limit", topK);
         body.put("with_payload", true);
@@ -98,9 +99,10 @@ public class QdrantVectorStore implements VectorStore {
         match.put("key", "projectId");
         match.putObject("match").put("value", projectId);
 
-        String raw = http.postJson(base() + "/collections/" + cfg.getCollection() + "/points/search",
+        String raw = http.postJson(base() + "/collections/" + cfg.getCollection() + "/points/query",
                 JsonUtils.write(body), cfg.getTimeoutMs());
-        JsonNode result = JsonUtils.parse(raw).path("result");
+        // /points/query 响应结构：{result: {points: [...]}}（旧 /points/search 的 result 直接是数组）
+        JsonNode result = JsonUtils.parse(raw).path("result").path("points");
         List<SearchHit> hits = new ArrayList<>();
         for (JsonNode node : result) {
             Map<String, Object> payload = new LinkedHashMap<>();
