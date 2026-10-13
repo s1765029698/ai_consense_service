@@ -1,6 +1,6 @@
 # External fixture tests
 
-The publication snapshot preserves eight Java test files under java/ with their original package declarations and byte-identical code. This directory is outside Maven's default src/test/java source root.
+The publication snapshot preserves ten Java test files under java/ with their original package declarations and byte-identical code. This directory is outside Maven's default src/test/java source root.
 
 The tests require private uploaded correspondence or actual experimental/runtime captures that are intentionally absent from this repository. Their removal from the default test source root is a publication boundary, not deletion of the test implementation and not a claim that these tests passed without their data.
 
@@ -17,4 +17,4 @@ To run this group, prepare an isolated, unversioned test workspace with authoriz
 
 The retained a10 replay source DOCX files are explicit fictional TEST ONLY documents. The retained correction03 pagination-value fixture is simulated with rejected-output provenance. The retained legacy diagnostic serialization fixture is deterministic synthetic/mock data, with no network, credentials, or corpus. These are not historical project evidence.
 
-Publication verification covered source compilation, 13 passing rule tests and four skipped native guard cases. It did not rerun the external fixture suites or real model/OCR/retrieval/PDF provider acceptance.
+The earlier publication snapshot verification covered source compilation, 13 passing rule tests and four skipped native guard cases. Current standalone checks are recorded in [the split-repository handoff](../../docs/public-split-delivery-20261013.md). Neither snapshot reran the external fixture suites or real model/OCR/retrieval/PDF provider acceptance.
